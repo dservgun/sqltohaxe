@@ -71,7 +71,7 @@ let driver commandLine =
 		Printf.printf "Creating writing grid gain store classes\n";
 		List.iter(fun x -> (writeGridGainStoreClass x javaModelPrefix utilPrefix))statements;
 		writeConfigSnippets javaModelPrefix statements
-	with Invalid_argument (aMessage) -> Printf.printf "No input statements file specified %s:  %s\n" aMessage "Invalid command line";;
+	with Invalid_argument (aMessage) -> Printf.printf "No input statements file specified %s:  %s\n" aMessage "Invalid command line"; exit(-1);;
 
 (*
 let driver1 commandLine= 
