@@ -34,17 +34,17 @@ Temporary -> "Temporory"
 |Permanent -> "Permanent";;
 
 let printStatement aStatement = match aStatement with
-	NoStatement -> "NoStatement"
-	|SelectStatement -> "SelectStatement"
-	| InsertStatement -> "InsertStatement"
-	| CreateStatement(c) -> Printf.sprintf "%s -> %s: %s" c.tableName (printTableExists c.tableExists) 
+  NoStatement -> "NoStatement"
+  |SelectStatement -> "SelectStatement"
+  | InsertStatement -> "InsertStatement"
+  | CreateStatement(c) -> Printf.sprintf "%s -> %s: %s" c.tableName (printTableExists c.tableExists) 
 (printStorageType c.tableStorage);;
-	
+  
 
 let printStatements aStatementList = 
-	let result = List.fold_left( fun accum x -> accum ^ (printStatement x) ^ "\n") "" 
-		aStatementList in
-	result;;
+  let result = List.fold_left( fun accum x -> accum ^ (printStatement x) ^ "\n") "" 
+    aStatementList in
+  result;;
 
 let createCreateStatement tableStorage tableExists tableName columns=
   let result = CreateStatement({

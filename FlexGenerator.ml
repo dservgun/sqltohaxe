@@ -8,7 +8,7 @@ let attributes aStatement = List.filter (fun aColumn -> not (isKey aColumn)) aSt
   
 let generatePackageName = sprintf "package %s;\n" interfaceDirectory
 let generateFlexImports  = 
-	List.fold_right (fun className acc -> 
+  List.fold_right (fun className acc -> 
 sprintf 
 "import %s;
 %s" 
@@ -23,12 +23,12 @@ let generateConstructorHeader (aClassName: string) = sprintf
 "
 //Constructor
 public function new() { 
-	grid = new Grid();
-	form = new Form();
-	var formHeading : FormHeading;
-	formHeading = new FormHeading();
-	formHeading.label = \"%s\";
-	form.addChild(formHeading);
+  grid = new Grid();
+  form = new Form();
+  var formHeading : FormHeading;
+  formHeading = new FormHeading();
+  formHeading.label = \"%s\";
+  form.addChild(formHeading);
 
 " aClassName
 
@@ -36,21 +36,21 @@ let generateSaveCancelControls aStatement =
 "
   //Note: Add save and cancel handlers in
   //corresponding interface helper classes.
-	var gridRow = new GridRow();
-	var gridItem = new GridItem();
-	saveButton = new Button();
-	saveButton.label = \"Save\";
+  var gridRow = new GridRow();
+  var gridItem = new GridItem();
+  saveButton = new Button();
+  saveButton.label = \"Save\";
   saveButton.addEventListener(MouseEvent.CLICK, save);
   saveButton.addEventListener(FlexEvent.ENTER, retrieve);
-	gridItem.addChild(saveButton);
-	gridRow.addChild(gridItem);
-	var gridItem = new GridItem();
-	cancelButton = new Button();
-	cancelButton.label = \"Cancel\";
-	gridItem.addChild(cancelButton);
+  gridItem.addChild(saveButton);
   gridRow.addChild(gridItem);
-	grid.addChild(gridRow);
-	form.addChild(grid);
+  var gridItem = new GridItem();
+  cancelButton = new Button();
+  cancelButton.label = \"Cancel\";
+  gridItem.addChild(cancelButton);
+  gridRow.addChild(gridItem);
+  grid.addChild(gridRow);
+  form.addChild(grid);
 "
 
 let generateConstructorFooter aStatement = sprintf 
@@ -60,7 +60,7 @@ let generateConstructorFooter aStatement = sprintf
 " (generateSaveCancelControls aStatement)                                           
 
 (* Create a form heading with the class name in 
-	mixed case as the label. *)
+  mixed case as the label. *)
 
 let generateInterfaceContainer  = sprintf 
 "
@@ -107,23 +107,23 @@ let generateControls aColumn = (generateLabel aColumn) ^ (generateControl aColum
 
 
 let generateInterfaceClassBody aStatement = 
-		let attributes = attributes aStatement in
-		sprintf 
+    let attributes = attributes aStatement in
+    sprintf 
 "
 %s
 %s
 %s
 %s
 " 
-		generateInterfaceContainer
-		generateInterfaceContainerAccessor
-		generateInterfaceContainerMutator
-		(List.fold_right 
-		(fun x acc -> 
-		 match x.definition with
-		 | ColumnDef(colDefinition) -> sprintf "%s\n%s" (generateControls x) acc
-		 | _ -> sprintf ""
-		 ) attributes "")
+    generateInterfaceContainer
+    generateInterfaceContainerAccessor
+    generateInterfaceContainerMutator
+    (List.fold_right 
+    (fun x acc -> 
+     match x.definition with
+     | ColumnDef(colDefinition) -> sprintf "%s\n%s" (generateControls x) acc
+     | _ -> sprintf ""
+     ) attributes "")
 
 
 let generateInterfaceClassFooter aStatement = sprintf 
@@ -321,17 +321,17 @@ let generateConstructorBody aStatement =
   let labelText = String.capitalize textName in
   sprintf
 "
-	//Creating form items for %s
-	var formItem = new FormItem();
-	formItem.label = \"%s\";
-	%s = new %s();
-	%s.id = \"%s\";
-	formItem.addChild(%s);
-	form.addChild(formItem);
-	%s
+  //Creating form items for %s
+  var formItem = new FormItem();
+  formItem.label = \"%s\";
+  %s = new %s();
+  %s.id = \"%s\";
+  formItem.addChild(%s);
+  form.addChild(formItem);
+  %s
 " controlName labelText controlName controlType 
-	controlName
-  	controlName controlName acc) (attributes aStatement) ""
+  controlName
+    controlName controlName acc) (attributes aStatement) ""
 
 let generateFlexInterface aStatement = match aStatement with
   | CreateStatement(aStatement) -> sprintf 
@@ -412,14 +412,14 @@ let writeFlexInterfaceClass aStatement =
 let writeFlexInterfaceMakefile statements =
   let makeFileString = generateFlexMakeFile statements in
   let copyContents = 
-  		File.WriteAllText(
-  			sprintf "%s\\Index.hxml" targetInterfaceDirectory, 
-  				makeFileString) in
+      File.WriteAllText(
+        sprintf "%s\\Index.hxml" targetInterfaceDirectory, 
+          makeFileString) in
   if Directory.Exists(targetInterfaceDirectory) then
-      	copyContents
+        copyContents
   else
-    	Directory.CreateDirectory(targetInterfaceDirectory) |> ignore;
-    	copyContents
+      Directory.CreateDirectory(targetInterfaceDirectory) |> ignore;
+      copyContents
 
 let generateUIInstances statements =   
 List.fold_right (fun x acc ->

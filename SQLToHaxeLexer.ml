@@ -94,7 +94,7 @@
   let loadKeywords aList aTable = List.iter (fun (x,y) -> Hashtbl.add aTable x y) keywords;;
   loadKeywords keywords symbolTable;;
   let incr_linenum lexbuf =     
-  	let pos = lexbuf.Lexing.lex_curr_p in
+    let pos = lexbuf.Lexing.lex_curr_p in
     lexbuf.Lexing.lex_curr_p <- { pos with
       Lexing.pos_lnum = pos.Lexing.pos_lnum + 1;
       Lexing.pos_bol = pos.Lexing.pos_cnum - pos.Lexing.pos_bol;
@@ -104,11 +104,11 @@
     let convertCase = String.uppercase tokenText in
     if Hashtbl.mem symbolTable convertCase then 
     let result = Hashtbl.find symbolTable convertCase in
-    	Printf.printf "ident %s \n" tokenText;
+      Printf.printf "ident %s \n" tokenText;
       result
     else 
       let result = ID(tokenText) in
-      	Printf.printf "ident %s\n" tokenText;
+        Printf.printf "ident %s\n" tokenText;
         result;;
 
 
@@ -402,7 +402,7 @@ and __ocaml_lex_comment_rec lexbuf __ocaml_lex_state =
       | 0 ->
 # 159 "SQLToHaxeLexer.mll"
             ( 
-  	token lexbuf)
+    token lexbuf)
 # 407 "SQLToHaxeLexer.ml"
 
   | 1 ->

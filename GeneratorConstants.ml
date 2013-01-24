@@ -13,17 +13,17 @@ let destinationDirectory () = match Array.length(Sys.argv) with
   
 let licenseFile = "license.txt"
 let generateLicenseFile ()= 
-	try
-		let input_chan = open_in licenseFile in
-		let buffer = Buffer.create 1024 in
-		while true do
-			let line = input_line input_chan in
-			Buffer.add_string buffer line 
-		done;
-		Buffer.contents buffer;	
-	with End_of_file -> ""
-		|Sys_error(err) -> "";;
-		
+  try
+    let input_chan = open_in licenseFile in
+    let buffer = Buffer.create 1024 in
+    while true do
+      let line = input_line input_chan in
+      Buffer.add_string buffer line 
+    done;
+    Buffer.contents buffer;  
+  with End_of_file -> ""
+    |Sys_error(err) -> "";;
+    
 (*The data model*)
 let modelDirectory = "model"
 (*The interface interface is a keyword in haxe *)

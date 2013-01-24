@@ -27,17 +27,17 @@ let decodeClassType aClassType =
   | DTO -> "dto";;
   
 let decodeCacheType aCacheType = 
-	match aCacheType with EhCache -> "EhCache"
-	| GridGain -> "GridGain"
-	| _ -> "Derby";;
+  match aCacheType with EhCache -> "EhCache"
+  | GridGain -> "GridGain"
+  | _ -> "Derby";;
 
 let encodeCacheType aString = 
-	Printf.printf "Encoding %s\n" aString;
-	match aString with 
-	"EhCache" -> EhCache
-	| "GridGain" -> GridGain
-	| "Derby" -> Derby
-	| _ -> raise InvalidCacheTypeException;;
+  Printf.printf "Encoding %s\n" aString;
+  match aString with 
+  "EhCache" -> EhCache
+  | "GridGain" -> GridGain
+  | "Derby" -> Derby
+  | _ -> raise InvalidCacheTypeException;;
 
 let getCacheType () = encodeCacheType (Sys.argv.(5));;
 
@@ -46,7 +46,7 @@ let generatePackageName aModelPrefix aPackageName =
   | "" -> sprintf "package %s;\n" aModelPrefix
   | _ -> sprintf "package %s.%s\n;" aModelPrefix aPackageName;;  
 let importClassNames aModelPrefix= 
-	let tempList = [
+  let tempList = [
   "javax.persistence.*";
   "org.slf4j.Logger";
   "org.slf4j.LoggerFactory";
@@ -61,26 +61,26 @@ let importClassNames aModelPrefix=
    GridGain -> List.append tempList ["org.gridgain.grid.cache.query.*"]
    | _ -> tempList;;
 let importGridGainClassNames aModelPrefix =
-	let tempList = [
-		"org.gridgain.grid.GridEdition";
-		(sprintf "%s.HibernateUtil" aModelPrefix);
-		"org.gridgain.grid.GridException";
-		"org.gridgain.grid.cache.*";
-		"org.gridgain.grid.cache.store.GridCacheStoreAdapter";
-		"org.gridgain.grid.editions.GridNotAvailableIn";
-		"org.gridgain.grid.typedef.G";
-		"org.gridgain.grid.typedef.X";
-		"org.hibernate.FlushMode";
-		"org.hibernate.HibernateException";
-		"org.hibernate.Session";
-		"org.hibernate.Transaction";
-		"org.jetbrains.annotations.Nullable";
-		"org.slf4j.Logger";
-		"org.slf4j.LoggerFactory";
-		"java.text.MessageFormat";
-		"java.util.Date";
-		"com.prepgames.domain.gridgain.util.GridGainUtils";
-	] in tempList;;
+  let tempList = [
+    "org.gridgain.grid.GridEdition";
+    (sprintf "%s.HibernateUtil" aModelPrefix);
+    "org.gridgain.grid.GridException";
+    "org.gridgain.grid.cache.*";
+    "org.gridgain.grid.cache.store.GridCacheStoreAdapter";
+    "org.gridgain.grid.editions.GridNotAvailableIn";
+    "org.gridgain.grid.typedef.G";
+    "org.gridgain.grid.typedef.X";
+    "org.hibernate.FlushMode";
+    "org.hibernate.HibernateException";
+    "org.hibernate.Session";
+    "org.hibernate.Transaction";
+    "org.jetbrains.annotations.Nullable";
+    "org.slf4j.Logger";
+    "org.slf4j.LoggerFactory";
+    "java.text.MessageFormat";
+    "java.util.Date";
+    "com.prepgames.domain.gridgain.util.GridGainUtils";
+  ] in tempList;;
 let generateClassImports packageList = List.fold_right
   (fun c acc ->
     match acc with "" ->
@@ -97,15 +97,15 @@ let generateDependencyListComment =
     sprintf "/*%s*/" (generateDependencyList "");;
 
 let generateGeneratedDocumentation aClassName = 
-	sprintf "/* %s Class file generated on %s */\n" aClassName (getCurrentTime());;
+  sprintf "/* %s Class file generated on %s */\n" aClassName (getCurrentTime());;
   
 let generateAnnotationHeader aClassType = 
-		let cacheType = getCacheType() in
-		match (aClassType, cacheType) with 
-		(Persistence, EhCache) -> "@Entity\n@org.hibernate.annotations.Cache(usage = org.hibernate.annotations.CacheConcurrencyStrategy.READ_WRITE)\n"
-		| (Persistence, GridGain) -> "@Entity"
-		| (Persistence, Derby) -> "@Entity"
-		| (DTO, _) -> "";;
+    let cacheType = getCacheType() in
+    match (aClassType, cacheType) with 
+    (Persistence, EhCache) -> "@Entity\n@org.hibernate.annotations.Cache(usage = org.hibernate.annotations.CacheConcurrencyStrategy.READ_WRITE)\n"
+    | (Persistence, GridGain) -> "@Entity"
+    | (Persistence, Derby) -> "@Entity"
+    | (DTO, _) -> "";;
 
 let generateGridGainAnnotationHeader aClassType = "@GridNotAvailableIn(GridEdition.COMPUTE_GRID)\n";;
 
@@ -166,24 +166,24 @@ sprintf
 (*Assumes that id is a primary key (no composite keys) and all are auto generated *)
 
 let generateIdAnnotation aColumn = 
-	let cacheString = match getCacheType() 
-		with EhCache-> ""
-		| GridGain -> "@GridCacheQuerySqlField(unique=true)"
-		| Derby -> "" in
-	let idString = match getCacheType()
-		with EhCache-> "@Id @GeneratedValue"
-		| GridGain -> "@Id"
-		| Derby -> ""
-	in
-	Printf.printf "Using cacheString %s\n" cacheString;		
-	Printf.sprintf "%s\n %s" idString cacheString;;
-	
+  let cacheString = match getCacheType() 
+    with EhCache-> ""
+    | GridGain -> "@GridCacheQuerySqlField(unique=true)"
+    | Derby -> "" in
+  let idString = match getCacheType()
+    with EhCache-> "@Id @GeneratedValue"
+    | GridGain -> "@Id"
+    | Derby -> ""
+  in
+  Printf.printf "Using cacheString %s\n" cacheString;    
+  Printf.sprintf "%s\n %s" idString cacheString;;
+  
 let generateColumnAnnotation aColumn = 
-	let cacheString = match getCacheType() 
-		with EhCache -> ""
-		| GridGain -> "@GridCacheQuerySqlField"
-		| Derby -> "" in
-	sprintf 
+  let cacheString = match getCacheType() 
+    with EhCache -> ""
+    | GridGain -> "@GridCacheQuerySqlField"
+    | Derby -> "" in
+  sprintf 
 "
 @Column(name=\"%s\") 
 %s" (aColumn.name) cacheString;;
@@ -209,11 +209,11 @@ let generateAttribute anAttribute =
     let genAttributeName = generateAttributeName attributeName columnDataType in
     let genAttributeMutator = generateMutator attributeName columnDataType in
     let genAttributeAccessor = generateAccessor attributeName columnDataType in
-	let cacheString = match getCacheType() 
-		with EhCache-> ""
-		| GridGain -> "@GridCacheQuerySqlField"
-		| Derby -> ""
-	in
+  let cacheString = match getCacheType() 
+    with EhCache-> ""
+    | GridGain -> "@GridCacheQuerySqlField"
+    | Derby -> ""
+  in
     
   sprintf
 "
@@ -268,13 +268,13 @@ let generatePrimaryKey keyAttribute =
   let genAttributeMutator = (generateMutator  attributeName columnDataType) in
   let genAttributeAccessor = (generateAccessor attributeName columnDataType) in
   let cacheString = match getCacheType() 
-		with EhCache-> ""
-		| GridGain -> "@GridCacheQuerySqlField(unique=true)"
- 		| Derby -> "" in
+    with EhCache-> ""
+    | GridGain -> "@GridCacheQuerySqlField(unique=true)"
+     | Derby -> "" in
   let idString = match getCacheType() 
-  		with EhCache -> "@Id @GeneratedValue"
-  		| GridGain -> "@Id" 
-  		| Derby -> "" in
+      with EhCache -> "@Id @GeneratedValue"
+      | GridGain -> "@Id" 
+      | Derby -> "" in
 sprintf
 "
   %s
@@ -324,7 +324,7 @@ let generateInternalDelete =
 sprintf
 "
   public void delete(String createdBy, String creationIP){
-	//TO Be defined.
+  //TO Be defined.
     this.save(createdBy, creationIP);
   }
 ";;
@@ -375,18 +375,18 @@ sprintf
 " "";;
 let generateAttributes anAttributeList = List.fold_right (fun x acc -> sprintf "%s %s"(generateAttribute x) acc) anAttributeList "";; 
 let generateClassBody aStatement dtoPackageName = 
-	logger("Inside generate Class body ");
+  logger("Inside generate Class body ");
   let keyList = getPrimaryKeyIds aStatement in
   let keyLength = List.length keyList in
   if keyLength > 1 then 
     raise(CompositeKeysNotSupported("Feature not supported"))
   else
     let keyAttribute = 
-    	Printf.printf "Key list size %d\n" (List.length keyList);
-		if(List.length keyList = 1) then
-			(List.hd keyList)
-		else
-			raise (NoPrimaryKeyDefined("Feature not supported for non keyed tables")) in
+      Printf.printf "Key list size %d\n" (List.length keyList);
+    if(List.length keyList = 1) then
+      (List.hd keyList)
+    else
+      raise (NoPrimaryKeyDefined("Feature not supported for non keyed tables")) in
     let attributeList = tableAttributes keyAttribute aStatement in
     sprintf 
 "
@@ -409,24 +409,24 @@ let generateEndBlock = "}";;
 let storeClassName tableName = sprintf "%s_%s" tableName "store";;
 let generateGridGainClassHeader tableName =
     let storeClassName = storeClassName tableName in
-	sprintf "public class %s extends GridCacheStoreAdapter<Integer,%s> {"
-		storeClassName tableName;;
+  sprintf "public class %s extends GridCacheStoreAdapter<Integer,%s> {"
+    storeClassName tableName;;
 let generateGridGainStaticVariables tableName =
-	let storeClassName = storeClassName tableName in
-	sprintf "
-	private static final String ATTR_SES = (%s.class).getCanonicalName();
-	//Well known cache name for the cache. TODO: Should probably be implementing
-	//an interface??
-	public static final String CACHE_NAME = (%s.class).getCanonicalName();
-	private static final Logger log = LoggerFactory.getLogger(%s.class);
-	private Session session(GridCacheTx tx) {
-		return GridGainUtils.session(tx, ATTR_SES);
-	}" 
-	storeClassName storeClassName storeClassName;;
-	
+  let storeClassName = storeClassName tableName in
+  sprintf "
+  private static final String ATTR_SES = (%s.class).getCanonicalName();
+  //Well known cache name for the cache. TODO: Should probably be implementing
+  //an interface??
+  public static final String CACHE_NAME = (%s.class).getCanonicalName();
+  private static final Logger log = LoggerFactory.getLogger(%s.class);
+  private Session session(GridCacheTx tx) {
+    return GridGainUtils.session(tx, ATTR_SES);
+  }" 
+  storeClassName storeClassName storeClassName;;
+  
 let generateGridGainLoadMethod tableName =
-	sprintf
-	"
+  sprintf
+  "
     /** {@inheritDoc} */
     //@Override
     public %s load(@Nullable String cacheName, @Nullable GridCacheTx tx, Integer key) throws GridException {
@@ -448,8 +448,8 @@ let generateGridGainLoadMethod tableName =
     }" tableName tableName tableName 
     
 let generateGridGainPutMethod tableName = 
-	sprintf
-	"
+  sprintf
+  "
     //@Override
     public void put(@Nullable String cacheName, @Nullable GridCacheTx tx, Integer key, @Nullable %s  val)
             throws GridException {
@@ -474,13 +474,13 @@ let generateGridGainPutMethod tableName =
         finally {
             end(ses, tx);
         }
-    }	
-	" tableName;;
+    }  
+  " tableName;;
 
 let generateGridGainRemoveMethod tableName =
-	sprintf
-	"
-	/** {@inheritDoc} */
+  sprintf
+  "
+  /** {@inheritDoc} */
     @SuppressWarnings({\"JpaQueryApiInspection\"})
     //@Override
     public void remove(@Nullable String cacheName, @Nullable GridCacheTx tx, Integer key) throws GridException {
@@ -498,11 +498,11 @@ let generateGridGainRemoveMethod tableName =
             end(ses, tx);
         }
     }
-	" tableName;;
+  " tableName;;
 
 let generateGridGainTransactionMethods () =
-	"
-	    /**
+  "
+      /**
      * Rolls back hibernate session.
      *
      * @param ses Hibernate session.
@@ -567,38 +567,38 @@ let generateGridGainTransactionMethods () =
             }
         }
     }
-	"
-	
-						
+  "
+  
+            
 let generateGridGainStoreClass aStatement persistencePackageName utilPrefix =
-	match aStatement with
-	| CreateStatement(aStatement) ->
-	sprintf
-	"
-	%s
-	%s
-	%s
-	%s
-	%s
-	%s
-	%s
-	%s
-	%s 
-	%s
-	%s
-	"
-	(generatePackageName persistencePackageName "")
-	(generateLicenseFile())
-	(generateClassImports(importGridGainClassNames utilPrefix))
-	(generateGridGainAnnotationHeader Persistence)
-	(generateGridGainClassHeader aStatement.tableName)
-	(generateGridGainStaticVariables aStatement.tableName)
-	(generateGridGainLoadMethod aStatement.tableName)
-	(generateGridGainPutMethod aStatement.tableName)
-	(generateGridGainRemoveMethod aStatement.tableName)
-	(generateGridGainTransactionMethods () )
-	generateEndBlock
-	| _ -> raise UnsupportedStatementException;;
+  match aStatement with
+  | CreateStatement(aStatement) ->
+  sprintf
+  "
+  %s
+  %s
+  %s
+  %s
+  %s
+  %s
+  %s
+  %s
+  %s 
+  %s
+  %s
+  "
+  (generatePackageName persistencePackageName "")
+  (generateLicenseFile())
+  (generateClassImports(importGridGainClassNames utilPrefix))
+  (generateGridGainAnnotationHeader Persistence)
+  (generateGridGainClassHeader aStatement.tableName)
+  (generateGridGainStaticVariables aStatement.tableName)
+  (generateGridGainLoadMethod aStatement.tableName)
+  (generateGridGainPutMethod aStatement.tableName)
+  (generateGridGainRemoveMethod aStatement.tableName)
+  (generateGridGainTransactionMethods () )
+  generateEndBlock
+  | _ -> raise UnsupportedStatementException;;
 let generateJavaDBClass aStatement persistencePackageName dtoPackageName utilPrefix=
   match aStatement with 
   | CreateStatement(aStatement) ->
@@ -631,107 +631,107 @@ let generateJavaDBClass aStatement persistencePackageName dtoPackageName utilPre
 
 
 let writeGGCacheConfig out_channel javaModelPrefix aStatement =
-	match aStatement with 
-	CreateStatement(aStatement) ->
-		Printf.printf "Generating xml snippet for %s\n" aStatement.tableName;
-		let storeName = javaModelPrefix ^ "." ^ aStatement.tableName ^ "_" ^ "store" in
-		let configurationClass = "org.gridgain.grid.cache.GridCacheConfigurationAdapter" in
-		let cacheMode = "PARTITIONED" in
-		let synchronousCommit = "true" in
-		let storeEnabled = "true" in
-		let writeBehindEnabled = "true" in
-		let preloadMode = "SYNC" in
-		Printf.fprintf out_channel
-		"<bean class=\"%s\">
-			<property name=\"name\" value=\"%s\"/>
-			<property name=\"synchronousCommit\" value=\"%s\"/>
-			<property name=\"storeEnabled\" value=\"%s\"/>
-			<property name=\"store\"> 
-				<bean class = \"%s\" scope=\"singleton\"/>
-			</property>
-			
-			<property name=\"cacheMode\" value=\"%s\"/>
-			<property name=\"writeBehindEnabled\" value=\"%s\"/>
-			<property name=\"preloadMode\" value = \"%s\"/>			
-		 </bean>
-		" 
-		configurationClass 
-		storeName
-		synchronousCommit
-		storeEnabled
-		storeName
-		cacheMode
-		writeBehindEnabled
-		preloadMode
-			
-	| _ -> raise UnsupportedStatementException;;
-	
+  match aStatement with 
+  CreateStatement(aStatement) ->
+    Printf.printf "Generating xml snippet for %s\n" aStatement.tableName;
+    let storeName = javaModelPrefix ^ "." ^ aStatement.tableName ^ "_" ^ "store" in
+    let configurationClass = "org.gridgain.grid.cache.GridCacheConfigurationAdapter" in
+    let cacheMode = "PARTITIONED" in
+    let synchronousCommit = "true" in
+    let storeEnabled = "true" in
+    let writeBehindEnabled = "true" in
+    let preloadMode = "SYNC" in
+    Printf.fprintf out_channel
+    "<bean class=\"%s\">
+      <property name=\"name\" value=\"%s\"/>
+      <property name=\"synchronousCommit\" value=\"%s\"/>
+      <property name=\"storeEnabled\" value=\"%s\"/>
+      <property name=\"store\"> 
+        <bean class = \"%s\" scope=\"singleton\"/>
+      </property>
+      
+      <property name=\"cacheMode\" value=\"%s\"/>
+      <property name=\"writeBehindEnabled\" value=\"%s\"/>
+      <property name=\"preloadMode\" value = \"%s\"/>      
+     </bean>
+    " 
+    configurationClass 
+    storeName
+    synchronousCommit
+    storeEnabled
+    storeName
+    cacheMode
+    writeBehindEnabled
+    preloadMode
+      
+  | _ -> raise UnsupportedStatementException;;
+  
 let writeEhCacheConfig out_channel javaModelPrefix aStatement =
-	match aStatement with
-	CreateStatement(aStatement) ->
-		let cacheName = javaModelPrefix ^ "." ^ aStatement.tableName in
-		let maxEntries = 10000 in
-		let eternal = "false" in
-		let timeToIdleSeconds =300 in
-		let timeToLiveSeconds = 600 in 
-		let overFlowToDisk = "true" in
-		Printf.printf "aConfiguration.addAnnotatedClass(%s.class);\n" cacheName;
-		Printf.fprintf out_channel "<cache name=\"%s\" 
-			eternal =\"%s\" \n"
-			cacheName eternal;
-		Printf.fprintf out_channel "timeToIdleSeconds=\"%d\" timeToLiveSeconds=\"%d\"\n"
-			timeToIdleSeconds timeToLiveSeconds;
-		Printf.fprintf out_channel "overflowToDisk=\"%s\" />\n" overFlowToDisk
-	| _ -> raise UnsupportedStatementException;;
+  match aStatement with
+  CreateStatement(aStatement) ->
+    let cacheName = javaModelPrefix ^ "." ^ aStatement.tableName in
+    let maxEntries = 10000 in
+    let eternal = "false" in
+    let timeToIdleSeconds =300 in
+    let timeToLiveSeconds = 600 in 
+    let overFlowToDisk = "true" in
+    Printf.printf "aConfiguration.addAnnotatedClass(%s.class);\n" cacheName;
+    Printf.fprintf out_channel "<cache name=\"%s\" 
+      eternal =\"%s\" \n"
+      cacheName eternal;
+    Printf.fprintf out_channel "timeToIdleSeconds=\"%d\" timeToLiveSeconds=\"%d\"\n"
+      timeToIdleSeconds timeToLiveSeconds;
+    Printf.fprintf out_channel "overflowToDisk=\"%s\" />\n" overFlowToDisk
+  | _ -> raise UnsupportedStatementException;;
 
 let writeJavaDBClass aStatement aModelPrefix utilPrefix =
-	let classString = generateJavaDBClass aStatement aModelPrefix "dto" utilPrefix in
-	match aStatement with 
-	CreateStatement(aStatement) ->
-		let javaFileName = aStatement.tableName in
-		try 
-			let file = Unix.openfile (aStatement.tableName ^".java")  [Unix.O_RDWR;Unix.O_CREAT] 0o777 in
-			let out_channel = Unix.out_channel_of_descr file in
-				Printf.fprintf out_channel "%s"  classString;
-				flush out_channel;
-				close_out out_channel;
-		with 
-			Sys_error e -> prerr_endline e;;
-			
+  let classString = generateJavaDBClass aStatement aModelPrefix "dto" utilPrefix in
+  match aStatement with 
+  CreateStatement(aStatement) ->
+    let javaFileName = aStatement.tableName in
+    try 
+      let file = Unix.openfile (aStatement.tableName ^".java")  [Unix.O_RDWR;Unix.O_CREAT] 0o777 in
+      let out_channel = Unix.out_channel_of_descr file in
+        Printf.fprintf out_channel "%s"  classString;
+        flush out_channel;
+        close_out out_channel;
+    with 
+      Sys_error e -> prerr_endline e;;
+      
 let writeGridGainStoreClass aStatement aModelPrefix utilPrefix =
-	let classString = generateGridGainStoreClass aStatement aModelPrefix utilPrefix in
-	match aStatement with
-	CreateStatement(aStatement) ->
-		let ggFileName = sprintf "%s_%s.java" (aStatement.tableName) ("store") in
-		try
-			let file = Unix.openfile(ggFileName) [Unix.O_RDWR; Unix.O_CREAT] 0o777 in
-			let out_channel = Unix.out_channel_of_descr file in
-				Printf.fprintf out_channel "%s" classString;
-				flush out_channel;
-				close_out out_channel
-		with
-			Sys_error e -> prerr_endline e;;
+  let classString = generateGridGainStoreClass aStatement aModelPrefix utilPrefix in
+  match aStatement with
+  CreateStatement(aStatement) ->
+    let ggFileName = sprintf "%s_%s.java" (aStatement.tableName) ("store") in
+    try
+      let file = Unix.openfile(ggFileName) [Unix.O_RDWR; Unix.O_CREAT] 0o777 in
+      let out_channel = Unix.out_channel_of_descr file in
+        Printf.fprintf out_channel "%s" classString;
+        flush out_channel;
+        close_out out_channel
+    with
+      Sys_error e -> prerr_endline e;;
 
 (* Create xml config snippets to be copied into a template file. TODO: This needs 
 to change *)
 
 let writeConfigSnippets javaModelPrefix statements =
-	let cacheType = getCacheType() in
-	match cacheType with
-	EhCache -> 
-		let ehCacheFile = "ehcache.xml" in
-		let file = Unix.openfile(ehCacheFile) [Unix.O_RDWR;Unix.O_CREAT] 0o777 in
-		let out_channel = Unix.out_channel_of_descr file in
-			List.iter(fun x -> writeEhCacheConfig out_channel javaModelPrefix x) statements;
-			flush out_channel;
-			close_out out_channel
-	| GridGain -> 
-		let ggCacheFile = "gg_cache_snippets.xml" in
-		let file = Unix.openfile(ggCacheFile) [Unix.O_RDWR; Unix.O_CREAT] 0o777 in
-		let out_channel = Unix.out_channel_of_descr file in
-			List.iter(fun x -> 
-				writeGGCacheConfig out_channel javaModelPrefix x) statements;
-			close_out out_channel
-	|_ -> ()
-			
+  let cacheType = getCacheType() in
+  match cacheType with
+  EhCache -> 
+    let ehCacheFile = "ehcache.xml" in
+    let file = Unix.openfile(ehCacheFile) [Unix.O_RDWR;Unix.O_CREAT] 0o777 in
+    let out_channel = Unix.out_channel_of_descr file in
+      List.iter(fun x -> writeEhCacheConfig out_channel javaModelPrefix x) statements;
+      flush out_channel;
+      close_out out_channel
+  | GridGain -> 
+    let ggCacheFile = "gg_cache_snippets.xml" in
+    let file = Unix.openfile(ggCacheFile) [Unix.O_RDWR; Unix.O_CREAT] 0o777 in
+    let out_channel = Unix.out_channel_of_descr file in
+      List.iter(fun x -> 
+        writeGGCacheConfig out_channel javaModelPrefix x) statements;
+      close_out out_channel
+  |_ -> ()
+      
 end

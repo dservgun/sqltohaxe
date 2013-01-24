@@ -159,8 +159,8 @@ sprintf
 ;;
       
 let writeJavaDTOClass aStatement aModelPrefix =
-	Printf.printf "%s" (generateJavaDTOClass aStatement "testDTO" "testPersistence");;
-	
+  Printf.printf "%s" (generateJavaDTOClass aStatement "testDTO" "testPersistence");;
+  
 (*let writeJavaDTOClass aStatement aModelPrefix = 
   let transformModelPrefix aModelPrefix = (regex "\.").Replace(aModelPrefix, "\\") in
   let dtoPackageName = aModelPrefix ^ "." ^ (decodeClassType DTO) in

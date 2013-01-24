@@ -81,13 +81,13 @@ let generateASClass aStatement aPackageName=
 
 
 let writeAsClass aStatement aModelPrefix =
-	let classString = generateASClass aStatement aModelPrefix in
-	Printf.printf "%s" classString;;
+  let classString = generateASClass aStatement aModelPrefix in
+  Printf.printf "%s" classString;;
 (*
 let writeAsClass aStatement aModelPrefix = 
 
     let transformModelPrefix aModelPrefix = 
-    	Str.global_replace (regex "\\.") (aModelPrefix ^ "\\") in
+      Str.global_replace (regex "\\.") (aModelPrefix ^ "\\") in
     let modelDirectory = destinationDirectory ^ "\\" ^ (transformModelPrefix aModelPrefix) in
     let classString = generateASClass aStatement aModelPrefix in
       match aStatement with
