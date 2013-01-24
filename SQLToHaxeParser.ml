@@ -705,7 +705,7 @@ let yyact = [|
     Obj.repr(
 # 57 "SQLToHaxeParser.mly"
                                                     (
-						abbrCreateColumn _1 _2)
+            abbrCreateColumn _1 _2)
 # 710 "SQLToHaxeParser.ml"
                : 'ColumnDefinition))
 ; (fun __caml_parser_env ->
@@ -714,10 +714,10 @@ let yyact = [|
     Obj.repr(
 # 59 "SQLToHaxeParser.mly"
                                            (
-					Printf.printf "Creating key column for %s\n" "UniqueKey";
-					createKeyColumn UniqueKey _4;
-				
-				)
+          Printf.printf "Creating key column for %s\n" "UniqueKey";
+          createKeyColumn UniqueKey _4;
+        
+        )
 # 722 "SQLToHaxeParser.ml"
                : 'ColumnDefinition))
 ; (fun __caml_parser_env ->
@@ -726,9 +726,9 @@ let yyact = [|
     Obj.repr(
 # 65 "SQLToHaxeParser.mly"
       (
-					Printf.printf "Creating key column for %s\n" "PrimaryKey";
-					createKeyColumn PrimaryKey _5;
-				  )
+          Printf.printf "Creating key column for %s\n" "PrimaryKey";
+          createKeyColumn PrimaryKey _5;
+          )
 # 733 "SQLToHaxeParser.ml"
                : 'ColumnDefinition))
 ; (fun __caml_parser_env ->
@@ -736,9 +736,9 @@ let yyact = [|
     Obj.repr(
 # 70 "SQLToHaxeParser.mly"
      (
-						Printf.printf "Creating key column for %s\n" "Primary Key";
-						createKeyColumn PrimaryKey _4
-					)
+            Printf.printf "Creating key column for %s\n" "Primary Key";
+            createKeyColumn PrimaryKey _4
+          )
 # 743 "SQLToHaxeParser.ml"
                : 'ColumnDefinition))
 ; (fun __caml_parser_env ->
@@ -748,8 +748,8 @@ let yyact = [|
     Obj.repr(
 # 75 "SQLToHaxeParser.mly"
       (
-					createKeyColumn UniqueKey _4
-				  )
+          createKeyColumn UniqueKey _4
+          )
 # 754 "SQLToHaxeParser.ml"
                : 'ColumnDefinition))
 ; (fun __caml_parser_env ->
@@ -761,8 +761,8 @@ let yyact = [|
     Obj.repr(
 # 79 "SQLToHaxeParser.mly"
       (
-					raise UnsupportedStatement
-				  )
+          raise UnsupportedStatement
+          )
 # 767 "SQLToHaxeParser.ml"
                : 'ColumnDefinition))
 ; (fun __caml_parser_env ->
@@ -771,12 +771,12 @@ let yyact = [|
     Obj.repr(
 # 83 "SQLToHaxeParser.mly"
       (
-				  (*
-					Datatype should match the reference.TODO
-					Check the foreign key and mark the field as a foreign key.
-					*)
-					createKeyColumn ForeignKey [_4]
-				  )
+          (*
+          Datatype should match the reference.TODO
+          Check the foreign key and mark the field as a foreign key.
+          *)
+          createKeyColumn ForeignKey [_4]
+          )
 # 781 "SQLToHaxeParser.ml"
                : 'ColumnDefinition))
 ; (fun __caml_parser_env ->
@@ -1056,8 +1056,8 @@ let yyact = [|
     Obj.repr(
 # 145 "SQLToHaxeParser.mly"
   (
-		logger ("No table option specified");
-		"")
+    logger ("No table option specified");
+    "")
 # 1062 "SQLToHaxeParser.ml"
                : 'TableOption))
 ; (fun __caml_parser_env ->
@@ -1343,7 +1343,7 @@ let yyact = [|
 # 186 "SQLToHaxeParser.mly"
    (
     (_1, _2, _3, _4, false, _5, _6)
-  	)
+    )
 # 1348 "SQLToHaxeParser.ml"
                : 'ColumnTypeQualifiers))
 ; (fun __caml_parser_env ->
@@ -1357,8 +1357,8 @@ let yyact = [|
     Obj.repr(
 # 193 "SQLToHaxeParser.mly"
      (
-						Printf.printf "Default value %s\n" 
-					_2; "Default")
+            Printf.printf "Default value %s\n" 
+          _2; "Default")
 # 1363 "SQLToHaxeParser.ml"
                : 'OptionalDefault))
 ; (fun __caml_parser_env ->
@@ -1366,9 +1366,9 @@ let yyact = [|
     Obj.repr(
 # 196 "SQLToHaxeParser.mly"
                   (
-					Printf.printf "Default value %d\n" _2;
-					"Default"
-				)
+          Printf.printf "Default value %d\n" _2;
+          "Default"
+        )
 # 1373 "SQLToHaxeParser.ml"
                : 'OptionalDefault))
 ; (fun __caml_parser_env ->

@@ -100,7 +100,7 @@ and
   integrityConstraint = Restrict | Cascade | SetNull | NoAction
 
 type referenceDefinitionType = NoReferenceType | 
-	ReferenceDefinition of referenceDefinition
+  ReferenceDefinition of referenceDefinition
 
 
 type foreignKeyConstraintRecord = 
@@ -134,9 +134,9 @@ type columnDefinition =
 type columnConstraintType = PrimaryKey | UniqueKey | ForeignKey
 
 type columnType = ColumnDef of columnDefinition | 
-	PrimaryKeys of indexColumn list | 
-	UniqueKeys of indexColumn list |
-	ForeignKeys of indexColumn list;;
+  PrimaryKeys of indexColumn list | 
+  UniqueKeys of indexColumn list |
+  ForeignKeys of indexColumn list;;
 
 
 type column = 
@@ -152,7 +152,7 @@ let createColumnRefs anIndexColumnList aType =
   | ForeignKey -> ForeignKeys(anIndexColumnList)
   
 let createDefaultVarcharField aLength = 
-	{fieldLength = aLength; varcharQualification = defaultTextQualification}
+  {fieldLength = aLength; varcharQualification = defaultTextQualification}
 let createVarcharField aLength charset collation = 
   let qual = {charset = charset; collation = collation} in
     VarcharType({
@@ -259,12 +259,12 @@ let createKeyColumn aType indexColumn =
   }
 let isKey aColumn = match aColumn.name with "PrimaryKey" -> true | "UniqueKey" -> true | "ForeignKey" -> true | _ -> false 
 let createIndexColumn aColumnName aColumnLength anOrder = 
-	Printf.printf "Printing index %s\n" aColumnName;
-	{ 
-	  columnName = aColumnName; 
-	  columnLength = aColumnLength;
-	  order = anOrder
-	}
+  Printf.printf "Printing index %s\n" aColumnName;
+  { 
+    columnName = aColumnName; 
+    columnLength = aColumnLength;
+    order = anOrder
+  }
 
 let createIntType aType = match aType with
   | 0 -> NoColumnLength 

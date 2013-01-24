@@ -34,7 +34,7 @@ sprintf
 " licenseText
 
 let generatedDocumentation aClassName = sprintf "/* %s Class file generated on %s */\n" 
-	aClassName (string_of_float (Unix.time()))
+  aClassName (string_of_float (Unix.time()))
 let classHeader aClassName aParentClassName = match aParentClassName with
     | "" -> sprintf "class %s \n" aClassName
     | aParentClassName -> sprintf 
@@ -101,7 +101,7 @@ let dbTableKeys aTable = sprintf "static var TABLE_IDS = [\"%s\"];" (List.fold_r
 let attributes columns = List.filter (fun aColumn -> not (isKey aColumn)) columns
 let instancePrefix = "a"
 let saveFunctionParams columns = 
-	(List.fold_right (fun x acc -> 
+  (List.fold_right (fun x acc -> 
     let instanceName = instancePrefix ^ String.lowercase x.name in
     if acc <> "" then
       sprintf "%s,%s" instanceName acc
@@ -124,11 +124,11 @@ let generateAssignments attributes objectName =
   List.fold_right (fun  instanceName accumulator -> 
   if accumulator <> "" then
   sprintf
-"	%s.%s = %s;
+"  %s.%s = %s;
 %s" objectName instanceName (instancePrefix ^ (String.lowercase instanceName)) accumulator
   else sprintf
 "
-	%s.%s = %s;
+  %s.%s = %s;
 " objectName instanceName (instancePrefix ^ (String.lowercase instanceName))
 ) attributePairs ""
 
@@ -144,8 +144,8 @@ type saveMethod = InsertMethod | UpdateMethod
 
 let saveBody aStatement methodType = 
   let saveOperation = match methodType with 
-  	| InsertMethod -> "insert()" 
-	| UpdateMethod -> "update()" in
+    | InsertMethod -> "insert()" 
+  | UpdateMethod -> "update()" in
   let closeTransaction = "connection.commit()" in
   let typeName = aStatement.tableName in
   let instanceName = String.lowercase aStatement.tableName in
@@ -365,16 +365,16 @@ let generateDBClass aStatement =
 
 
   let writeModelClass aStatement =
-  	printf "%s" (generateDBClass aStatement);;
+    printf "%s" (generateDBClass aStatement);;
 (*let writeModelClass aStatement = 
     let classString = generateDBClass aStatement in
     let modelDirectory = destinationDirectory ^ "\\" ^ modelDirectory in
       match aStatement with
       | CreateStatement(aStatement) -> 
-      	try
-      		let handle = Unix.opendir(modelDestinationDirectory) in
-      		let out_channel = open_out(sprintf "%s/%s.hx" modelDirectory aStatement.tableName) in
-      		
+        try
+          let handle = Unix.opendir(modelDestinationDirectory) in
+          let out_channel = open_out(sprintf "%s/%s.hx" modelDirectory aStatement.tableName) in
+          
           if Directory.Exists(modelDirectory) then
             File.WriteAllText(sprintf "%s\\%s.hx" modelDirectory aStatement.tableName, classString)
           else
